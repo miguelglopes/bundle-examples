@@ -48,7 +48,7 @@ resources:
   registered_models:
       model:
         name: ${var.model_name}
-        catalog_name: ${bundle.target}
+        catalog_name: jh_mlops_stack_${bundle.target}
         schema_name: my-mlops-project     
         <<: *grants
         depends_on:

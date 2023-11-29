@@ -22,9 +22,9 @@ resources:
             notebook_path: ../deployment/batch_inference/notebooks/BatchInference.py
             base_parameters:
               env: ${bundle.target}
-              input_table_name: taxi_scoring_sample  # TODO: create input table for inference
-              output_table_name: ${bundle.target}.my-mlops-project.predictions
-              model_name: ${bundle.target}.my-mlops-project.${var.model_name}
+              input_table_name: jh_mlops_stack_${bundle.target}.demo.taxi_scoring_sample  # TODO: create input table for inference
+              output_table_name: jh_mlops_stack_${bundle.target}.demo.predictions
+              model_name: jh_mlops_stack_${bundle.target}.my-mlops-project.${var.model_name}
               # git source information of current ML resource deployment. It will be persisted as part of the workflow run
               git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
 

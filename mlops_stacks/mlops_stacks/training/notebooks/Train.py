@@ -139,13 +139,14 @@ model = lgb.train(param, train_lgb_dataset, num_rounds)
 input_example = X_train.iloc[[0]]
 
 # Log the trained model with MLflow
-mlflow.lightgbm.log_model(
-    model, 
-    artifact_path="lgb_model", 
-    # The signature is automatically inferred from the input example and its predicted output.
-    input_example=input_example,    
-    registered_model_name=model_name
-)
+with mlflow.start_run():
+    mlflow.lightgbm.log_model(
+        model, 
+        artifact_path="lgb_model", 
+        # The signature is automatically inferred from the input example and its predicted output.
+        input_example=input_example,    
+        registered_model_name=model_name
+    )
 
 # The returned model URI is needed by the model deployment notebook.
 model_version = get_latest_model_version(model_name)
