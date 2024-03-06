@@ -1,7 +1,7 @@
 # Specify the trigger event to start the build pipeline.
-# In this case, new code merged into the release branch initiates a new build.
+# In this case, new code merged into the main branch initiates a new build. ('release' branch for production)
 trigger:
-- release
+- main
 
 # Specify the operating system for the agent that runs on the Azure virtual
 # machine for the build pipeline (known as the build agent). The virtual
