@@ -18,32 +18,18 @@ steps:
   persistCredentials: true
   clean: true
 
-# Generate the deployment artifact. To do this, the build agent gathers
-# all the new or updated code to be given to the release pipeline,
-# including the sample Python code, the Python notebooks,
-# the Python wheel library component files, and the related Databricks asset
-# bundle settings.
-# Use git diff to flag files that were added in the most recent Git merge.
-# Then add the files to be used by the release pipeline.
-# The implementation in your pipeline will likely be different.
-# The objective here is to add all files intended for the current release.
-- script: |
-    git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
-    echo $(Build.BinariesDirectory)
-    mkdir -p $(Build.BinariesDirectory)/mlops_stacks/mlops_stacks
-    cp -rf $(Build.Repository.LocalPath)/mlops_stacks/mlops_stacks/ $(Build.BinariesDirectory)/mlops_stacks/mlops_stacks
-  displayName: 'Get Changes'
-
 # Create the deployment artifact and then publish it to the
 # artifact repository.
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    rootFolderOrFile: '$(Build.Repository.LocalPath)/mlops_stacks/mlops_stacks'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+  displayName: 'Archive files'
 
 - task: PublishBuildArtifacts@1
   inputs:
     ArtifactName: 'DatabricksBuild'
+  displayName: 'Publish files'
