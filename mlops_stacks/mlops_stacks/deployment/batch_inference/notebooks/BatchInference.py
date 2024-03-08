@@ -28,7 +28,7 @@ dbutils.widgets.text("input_table_name", "", label="Input Table Name")
 dbutils.widgets.text("output_table_name", "", label="Output Table Name")
 # Unity Catalog registered model name to use for the trained mode.
 dbutils.widgets.text(
-    "model_name", "dev.my-mlops-project.mlops_stacks-model", label="Full (Three-Level) Model Name"
+    "model_name", "dev.mlops-poc.mlops_stacks-model", label="Full (Three-Level) Model Name"
 )
 
 # COMMAND ----------

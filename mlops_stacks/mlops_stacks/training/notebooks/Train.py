@@ -58,7 +58,7 @@ dbutils.widgets.text(
 )
 # Unity Catalog registered model name to use for the trained model.
 dbutils.widgets.text(
-    "model_name", "dev.my-mlops-project.mlops_stacks-model", label="Full (Three-Level) Model Name"
+    "model_name", "dev.mlops-poc.mlops_stacks-model", label="Full (Three-Level) Model Name"
 )
 
 # COMMAND ----------
