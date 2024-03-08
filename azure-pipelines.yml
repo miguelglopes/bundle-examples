@@ -31,7 +31,7 @@ steps:
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
     echo $(Build.BinariesDirectory)
     mkdir -p $(Build.BinariesDirectory)/mlops_stacks/mlops_stacks
-    cp $(Build.Repository.LocalPath)/mlops_stacks/mlops_stacks/*.* $(Build.BinariesDirectory)/mlops_stacks/mlops_stacks
+    cp -rf $(Build.Repository.LocalPath)/mlops_stacks/mlops_stacks/ $(Build.BinariesDirectory)/mlops_stacks/mlops_stacks
   displayName: 'Get Changes'
 
 # Create the deployment artifact and then publish it to the
