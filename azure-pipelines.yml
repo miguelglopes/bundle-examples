@@ -29,10 +29,9 @@ steps:
 # The objective here is to add all files intended for the current release.
 - script: |
     git diff --name-only --diff-filter=AMR HEAD^1 HEAD | xargs -I '{}' cp --parents -r '{}' $(Build.BinariesDirectory)
-    mkdir -p $(Build.BinariesDirectory)/Libraries/python/dabdemo/dabdemo
-    cp $(Build.Repository.LocalPath)/Libraries/python/dabdemo/dabdemo/*.* $(Build.BinariesDirectory)/Libraries/python/dabdemo/dabdemo
-    cp $(Build.Repository.LocalPath)/Libraries/python/dabdemo/setup.py $(Build.BinariesDirectory)/Libraries/python/dabdemo
-    cp $(Build.Repository.LocalPath)/*.* $(Build.BinariesDirectory)
+    echo $(Build.BinariesDirectory)
+    mkdir -p $(Build.BinariesDirectory)/mlops_stacks/mlops_stacks
+    cp $(Build.Repository.LocalPath)/mlops_stacks/mlops_stacks/*.* $(Build.BinariesDirectory)/mlops_stacks/mlops_stacks
   displayName: 'Get Changes'
 
 # Create the deployment artifact and then publish it to the
