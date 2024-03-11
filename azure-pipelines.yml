@@ -4,11 +4,13 @@ trigger:
 pool:
   vmImage: ubuntu-22.04
 
-variables:
+parameters:
  - name: BUNDLE_TARGET
-   value: dev
+   type: string
+   default: dev
  - name: BUNDLE_ROOT
-   value: mlops_stacks/mlops_stacks
+   type: string
+   default: mlops_stacks/mlops_stacks
 
 
 steps:
@@ -21,18 +23,18 @@ steps:
 
   - script: |
       https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh
-      databricks bundle validate -t $(BUNDLE_TARGET)
+      databricks bundle validate -t ${{parameters.BUNDLE_TARGET}}
     displayName: Validate bundle
-    workingDirectory: $(Agent.BuildDirectory)/s/$(BUNDLE_ROOT)
+    workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
 
   - script: |
       set -e
-      databricks bundle deploy -t $(BUNDLE_TARGET)
+      databricks bundle deploy -t ${{parameters.BUNDLE_TARGET}}
     displayName: Deploy bundle
-    workingDirectory: $(Agent.BuildDirectory)/s/$(BUNDLE_ROOT)
+    workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
