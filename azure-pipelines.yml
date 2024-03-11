@@ -1,35 +1,30 @@
-# Specify the trigger event to start the build pipeline.
-# In this case, new code merged into the main branch initiates a new build. ('release' branch for production)
 trigger:
 - main
 
-# Specify the operating system for the agent that runs on the Azure virtual
-# machine for the build pipeline (known as the build agent). The virtual
-# machine image in this example uses the Ubuntu 22.04 virtual machine
-# image in the Azure Pipeline agent pool. See
-# https://learn.microsoft.com/azure/devops/pipelines/agents/hosted#software
 pool:
   vmImage: ubuntu-22.04
 
-# Download the files from the designated branch in the remote Git repository
-# onto the build agent.
+variables:
+ - name: BUNDLE_TARGET
+   value: dev
+
+
 steps:
-- checkout: self
-  persistCredentials: true
-  clean: true
+  - checkout: self
 
-# Create the deployment artifact and then publish it to the
-# artifact repository.
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.Repository.LocalPath)/mlops_stacks/mlops_stacks'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
-  displayName: 'Archive files'
+  - script: |
+      databricks bundle validate -t $(BUNDLE_TARGET)
+    displayName: Validate bundle
+    workingDirectory: mlops_stacks/mlops_stacks
+    env:
+      DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
+      DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
 
-- task: PublishBuildArtifacts@1
-  inputs:
-    ArtifactName: 'DatabricksBuild'
-  displayName: 'Publish files'
+  - script: |
+      databricks bundle deploy -t $(BUNDLE_TARGET)
+    displayName: Deploy bundle
+    workingDirectory: mlops_stacks/mlops_stacks
+    env:
+      DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
+      DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
+
