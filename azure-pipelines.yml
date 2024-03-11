@@ -18,12 +18,12 @@ steps:
 
   - script: | 
       set -e
-      curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/v0.209.1/install.sh | sh
+      curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
     displayName: Install databricks cli
 
   - script: |
       set -e
-      databricks bundle validate -t ${{parameters.BUNDLE_TARGET}}
+      databricks bundle validate -t ${{parameters.BUNDLE_TARGET}} --var="model_name=jh_test"
     displayName: Validate bundle
     workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
     env:
@@ -32,7 +32,7 @@ steps:
 
   - script: |
       set -e
-      databricks bundle deploy -t ${{parameters.BUNDLE_TARGET}}
+      databricks bundle deploy -t ${{parameters.BUNDLE_TARGET}} --var="model_name=jh_test"
     displayName: Deploy bundle
     workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
     env:
