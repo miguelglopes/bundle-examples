@@ -15,10 +15,16 @@ steps:
   - checkout: self
 
   - script: | 
+      set -e
       curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
     displayName: Install databricks cli
 
   - script: |
+      set -e
+      pwd
+      ls -lah
+      echo $(Agent.BuildDirectory)
+      https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh
       databricks bundle validate -t $(BUNDLE_TARGET)
     displayName: Validate bundle
     workingDirectory: $(BUNDLE_ROOT)
@@ -27,6 +33,7 @@ steps:
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
 
   - script: |
+      set -e
       databricks bundle deploy -t $(BUNDLE_TARGET)
     displayName: Deploy bundle
     workingDirectory: $(BUNDLE_ROOT)
