@@ -18,7 +18,7 @@ steps:
 
   - script: | 
       set -e
-      curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/v0.209.1/install.sh | sh
     displayName: Install databricks cli
 
   - script: |
