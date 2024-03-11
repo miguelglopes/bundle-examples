@@ -7,15 +7,21 @@ pool:
 variables:
  - name: BUNDLE_TARGET
    value: dev
+ - name: BUNDLE_ROOT
+   value: mlops_stacks/mlops_stacks
 
 
 steps:
   - checkout: self
 
+  - script: | 
+      curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+    displayName: Install databricks cli
+
   - script: |
       databricks bundle validate -t $(BUNDLE_TARGET)
     displayName: Validate bundle
-    workingDirectory: mlops_stacks/mlops_stacks
+    workingDirectory: $(BUNDLE_ROOT)
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
@@ -23,7 +29,7 @@ steps:
   - script: |
       databricks bundle deploy -t $(BUNDLE_TARGET)
     displayName: Deploy bundle
-    workingDirectory: mlops_stacks/mlops_stacks
+    workingDirectory: $(BUNDLE_ROOT)
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
