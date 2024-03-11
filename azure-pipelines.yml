@@ -22,7 +22,7 @@ steps:
     displayName: Install databricks cli
 
   - script: |
-      https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh
+      set -e
       databricks bundle validate -t ${{parameters.BUNDLE_TARGET}}
     displayName: Validate bundle
     workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
