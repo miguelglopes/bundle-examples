@@ -20,14 +20,10 @@ steps:
     displayName: Install databricks cli
 
   - script: |
-      set -e
-      pwd
-      ls -lah
-      echo $(Agent.BuildDirectory)
       https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh
       databricks bundle validate -t $(BUNDLE_TARGET)
     displayName: Validate bundle
-    workingDirectory: $(BUNDLE_ROOT)
+    workingDirectory: $(Agent.BuildDirectory)/s/$(BUNDLE_ROOT)
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
@@ -36,7 +32,7 @@ steps:
       set -e
       databricks bundle deploy -t $(BUNDLE_TARGET)
     displayName: Deploy bundle
-    workingDirectory: $(BUNDLE_ROOT)
+    workingDirectory: $(Agent.BuildDirectory)/s/$(BUNDLE_ROOT)
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
