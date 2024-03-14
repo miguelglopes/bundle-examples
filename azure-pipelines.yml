@@ -39,3 +39,12 @@ steps:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
 
+  - script: |
+      set -e
+      databricks bundle run model_training_job --no-wait
+      databricks bundle run batch_inference_job --no-wait
+    displayName: Run bundle
+    workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
+    env:
+      DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
+      DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
