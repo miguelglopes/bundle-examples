@@ -10,7 +10,7 @@ parameters:
    default: dev
  - name: BUNDLE_ROOT
    type: string
-   default: mlops_stacks/mlops_stacks
+   default: mlops_stacks
 
 
 steps:
