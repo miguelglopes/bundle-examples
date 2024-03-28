@@ -1,14 +1,16 @@
 # The name of the bundle. run `databricks bundle schema` to see the full bundle settings schema.
 bundle:
-  name: mlops_stacks
+  name: test4
 
 variables:
   experiment_name:
     description: Experiment name for the model training.
-    default: /Users/${workspace.current_user.userName}/${bundle.target}-mlops_stacks-experiment
+  catalog_name:
+    description: unity catalog to use.
+  schema_name:
+    description: schema to use.
   model_name:
     description: Model name for the model training.
-    default: mlops_stacks-model
 
 include:
   # Resources folder contains ML artifact resources for the ml project that defines model and experiment
@@ -18,20 +20,11 @@ include:
 
 # Deployment Target specific values for workspace
 targets:
-  dev:
+  research:
     default: true
     workspace:
       host: https://outsystems-int-eu-1.cloud.databricks.com
 
-  staging:
+  dev:
     workspace:
-      host: https://outsystems-int-eu-1.cloud.databricks.com
-
-  prod:
-    workspace:
-      host: https://outsystems-int-eu-1.cloud.databricks.com
-
-  test:
-    workspace:
-      host: https://outsystems-int-eu-1.cloud.databricks.com
-
+      host: https://outsystems-dev-us-1.cloud.databricks.com

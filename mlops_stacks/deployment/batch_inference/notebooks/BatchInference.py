@@ -8,7 +8,7 @@
 #
 # Parameters:
 #
-#  * env (optional)  - String name of the current environment (dev, staging, or prod). Defaults to "dev"
+#  * env (optional)  - String name of the current environment (research, dev). Defaults to "research"
 #  * input_table_name (required)  - Delta table name containing your input data.
 #  * output_table_name (required) - Delta table name where the predictions will be written to.
 #                                   Note that this will create a new version of the Delta table if
@@ -21,14 +21,14 @@
 # Provide them via DB widgets or notebook arguments.
 #
 # Name of the current environment
-dbutils.widgets.dropdown("env", "dev", ["dev", "staging", "prod"], "Environment Name")
+dbutils.widgets.dropdown("env", "research", ["research", "dev"], "Environment Name")
 # A Hive-registered Delta table containing the input features.
 dbutils.widgets.text("input_table_name", "", label="Input Table Name")
 # Delta table to store the output predictions.
 dbutils.widgets.text("output_table_name", "", label="Output Table Name")
 # Unity Catalog registered model name to use for the trained mode.
 dbutils.widgets.text(
-    "model_name", "dev.mlops-poc.mlops_stacks-model", label="Full (Three-Level) Model Name"
+    "model_name", "", label="Full (Three-Level) Model Name"
 )
 
 # COMMAND ----------

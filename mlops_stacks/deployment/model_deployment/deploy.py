@@ -11,8 +11,8 @@ def deploy(model_uri, env):
 
     :param model_uri: URI of the model to deploy. Must be in the format "models:/<name>/<version-id>", as described in
                       https://www.mlflow.org/docs/latest/model-registry.html#fetching-an-mlflow-model-from-the-model-registry
-    :param env: name of the environment in which we're performing deployment, i.e one of "dev", "staging", "prod".
-                Defaults to "dev"
+    :param env: name of the environment in which we're performing deployment, i.e one of "research", "dev".
+                Defaults to "research"
     :return:
     """
     print(f"Deployment running in env: {env}")
