@@ -32,7 +32,7 @@ resources:
 
   experiments:
     experiment:
-      name: ${var.experiment_name}
+      name: /Users/${workspace.current_user.userName}/${var.experiment_name}
       permissions:
         - level: CAN_READ
           group_name: users

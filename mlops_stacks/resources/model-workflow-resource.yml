@@ -21,7 +21,7 @@ targets:
                   env: ${bundle.target}
                   # TODO: Update training_data_path
                   training_data_path: /databricks-datasets/nyctaxi-with-zipcodes/subsampled
-                  experiment_name: ${var.experiment_name}
+                  experiment_name: /Users/${workspace.current_user.userName}/${var.experiment_name}
                   model_name: ${var.catalog_name}.${var.schema_name}.${var.model_name}
                   # git source information of current ML resource deployment. It will be persisted as part of the workflow run
                   git_source_info: url:${bundle.git.origin_url}; branch:${bundle.git.branch}; commit:${bundle.git.commit}
@@ -33,7 +33,7 @@ targets:
               notebook_task:
                 notebook_path: ../validation/notebooks/ModelValidation.py
                 base_parameters:
-                  experiment_name: ${var.experiment_name}
+                  experiment_name: /Users/${workspace.current_user.userName}/${var.experiment_name}
                   # The `run_mode` defines whether model validation is enabled or not.
                   # It can be one of the three values:
                   # `disabled` : Do not run the model validation notebook.

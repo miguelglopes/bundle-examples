@@ -4,7 +4,7 @@ BUNDLE_TARGET?=research
 SCHEMA_NAME?=$(shell sh -c "terraform -chdir=../terraform output -raw schema")
 CATALOG_NAME?=$(shell sh -c "terraform -chdir=../terraform output -raw catalog")
 MODEL_NAME?=mgl
-EXPERIMENT_NAME?=/Users/42c5f20a-2787-46aa-9e62-0e80e69865cd/mgl
+EXPERIMENT_NAME?=mgl
 
 install-dependencies:
 	curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
