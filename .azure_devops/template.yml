@@ -15,6 +15,7 @@ jobs:
         set -e
         make install-dependencies
       displayName: Install databricks cli
+      workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
 
     - script: |
         set -e
