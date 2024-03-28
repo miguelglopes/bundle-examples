@@ -11,4 +11,4 @@ pool:
 jobs:
   - template: template.yml
     parameters:
-      BUNDLE_TARGET: DEV
+      BUNDLE_TARGET: dev
