@@ -7,7 +7,7 @@ parameters:
    default: mlops_stacks
 
 jobs:
-- job: Deploy and run
+- job: Deploy_And_Run
   steps:
     - checkout: self
 
