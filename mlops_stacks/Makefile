@@ -1,8 +1,10 @@
 .PHONY: install-dependencies validate-bundle deploy-bundle run-train-remote run-inference-remote run-bundle-remote
 
+include .env
+
 BUNDLE_TARGET?=research
-SCHEMA_NAME?=$(shell sh -c "terraform -chdir=../terraform output -raw schema")
-CATALOG_NAME?=$(shell sh -c "terraform -chdir=../terraform output -raw catalog")
+SCHEMA_NAME?=${schema}
+CATALOG_NAME?=${catalog}
 MODEL_NAME?=mgl
 EXPERIMENT_NAME?=mgl
 
