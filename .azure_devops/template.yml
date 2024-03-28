@@ -6,41 +6,42 @@ parameters:
    type: string
    default: mlops_stacks
 
+jobs:
+- job: Deploy and run
+  steps:
+    - checkout: self
 
-steps:
-  - checkout: self
+    - script: | 
+        set -e
+        make install-dependencies
+      displayName: Install databricks cli
 
-  - script: | 
-      set -e
-      make install-dependencies
-    displayName: Install databricks cli
+    - script: |
+        set -e
+        make validate-bundle
+      displayName: Validate bundle
+      workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
+      env:
+        DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
+        DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
+        BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
 
-  - script: |
-      set -e
-      make validate-bundle
-    displayName: Validate bundle
-    workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
-    env:
-      DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
-      DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
-      BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
+    - script: |
+        set -e
+        make deploy-bundle
+      displayName: Deploy bundle
+      workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
+      env:
+        DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
+        DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
+        BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
 
-  - script: |
-      set -e
-      make deploy-bundle
-    displayName: Deploy bundle
-    workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
-    env:
-      DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
-      DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
-      BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
-
-  - script: |
-      set -e
-      make run-bundle-remote
-    displayName: Run bundle
-    workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
-    env:
-      DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
-      DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
-      BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
+    - script: |
+        set -e
+        make run-bundle-remote
+      displayName: Run bundle
+      workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
+      env:
+        DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
+        DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
+        BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
