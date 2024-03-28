@@ -1,0 +1,14 @@
+# Trigger only for main, do not trigger on PRs
+trigger:
+  branches:
+    include:
+    - main
+pr: none
+
+pool:
+  vmImage: ubuntu-22.04
+
+jobs:
+  - template: template.yml
+    parameters:
+      BUNDLE_TARGET: DEV

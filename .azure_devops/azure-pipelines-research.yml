@@ -1,0 +1,10 @@
+# Do not trigger for regular CI (only for PRs)
+trigger: none
+
+pool:
+  vmImage: ubuntu-22.04
+
+jobs:
+  - template: template.yml
+    parameters:
+      BUNDLE_TARGET: RESEARCH

@@ -1,13 +1,7 @@
-trigger:
-- main
-
-pool:
-  vmImage: ubuntu-22.04
-
 parameters:
  - name: BUNDLE_TARGET
    type: string
-   default: dev
+   default: research
  - name: BUNDLE_ROOT
    type: string
    default: mlops_stacks
@@ -18,33 +12,35 @@ steps:
 
   - script: | 
       set -e
-      curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+      make install-dependencies
     displayName: Install databricks cli
 
   - script: |
       set -e
-      databricks bundle validate -t ${{parameters.BUNDLE_TARGET}} --var="model_name=jh_test"
+      make validate-bundle
     displayName: Validate bundle
     workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
+      BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
 
   - script: |
       set -e
-      databricks bundle deploy -t ${{parameters.BUNDLE_TARGET}} --var="model_name=jh_test"
+      make deploy-bundle
     displayName: Deploy bundle
     workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
+      BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
 
   - script: |
       set -e
-      databricks bundle run model_training_job --no-wait
-      databricks bundle run batch_inference_job --no-wait
+      make run-bundle-remote
     displayName: Run bundle
     workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
     env:
       DATABRICKS_CLIENT_ID: $(DATABRICKS_CLIENT_ID)
       DATABRICKS_CLIENT_SECRET: $(DATABRICKS_CLIENT_SECRET)
+      BUNDLE_TARGET: ${{parameters.BUNDLE_TARGET}}
