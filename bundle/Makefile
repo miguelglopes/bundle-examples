@@ -17,13 +17,5 @@ validate-bundle:
 deploy-bundle:
 	databricks bundle deploy -t $(BUNDLE_TARGET) --var="model_name=$(MODEL_NAME),schema_name=$(SCHEMA_NAME),catalog_name=$(CATALOG_NAME),experiment_name=$(EXPERIMENT_NAME)"
 
-run-train-remote:
-	if [ $(BUNDLE_TARGET) = "research" ]; then \
-		databricks bundle run -t $(BUNDLE_TARGET) model_training_job --no-wait --var="model_name=$(MODEL_NAME),schema_name=$(SCHEMA_NAME),catalog_name=$(CATALOG_NAME),experiment_name=$(EXPERIMENT_NAME)"; \
-	fi
-
-run-inference-remote:
-	# databricks bundle run -t $(BUNDLE_TARGET) batch_inference_job --no-wait --var="model_name=$(MODEL_NAME),schema_name=$(SCHEMA_NAME),catalog_name=$(CATALOG_NAME),experiment_name=$(EXPERIMENT_NAME)"
-
-run-bundle-remote: run-train-remote run-inference-remote
-	
+run-bundle-remote:
+	databricks bundle run -t $(BUNDLE_TARGET) model_training_job --no-wait --var="model_name=$(MODEL_NAME),schema_name=$(SCHEMA_NAME),catalog_name=$(CATALOG_NAME),experiment_name=$(EXPERIMENT_NAME)"
