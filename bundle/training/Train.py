@@ -7,17 +7,11 @@
 # ``mlops_stacks/resources/model-workflow-resource.yml``
 #
 # Parameters:
-# * env (required):                 - Environment the notebook is run in (staging, or prod). Defaults to "staging".
 # * training_data_path (required)   - Path to the training data.
 # * experiment_name (required)      - MLflow experiment name for the training runs. Will be created if it doesn't exist.
 # * model_name (required)           - Three-level name (<catalog>.<schema>.<model_name>) to register the trained model in Unity Catalog. 
 #  
 ##################################################################################
-
-# COMMAND ----------
-
-# MAGIC %load_ext autoreload
-# MAGIC %autoreload 2
 
 # COMMAND ----------
 
@@ -27,7 +21,7 @@ notebook_path =  '/Workspace/' + os.path.dirname(dbutils.notebook.entry_point.ge
 
 # COMMAND ----------
 
-# MAGIC %pip install -r ../../requirements.txt
+# MAGIC %pip install -r requirements.txt
 
 # COMMAND ----------
 
@@ -39,14 +33,10 @@ dbutils.library.restartPython()
 # List of input args needed to run this notebook as a job.
 # Provide them via DB widgets or notebook arguments.
 
-# Notebook Environment
-dbutils.widgets.dropdown("env", "research", ["research", "dev"], "Environment Name")
-env = dbutils.widgets.get("env")
-
 # Path to the Hive-registered Delta table containing the training data.
 dbutils.widgets.text(
     "training_data_path",
-    "/databricks-datasets/nyctaxi-with-zipcodes/subsampled",
+    "",
     label="Path to the training data",
 )
 

@@ -11,4 +11,4 @@ plan: lint
 
 apply: lint
 	terraform apply
-	terraform output -json | jq -r 'to_entries[] | "\(.key)=\(.value.value)"' > ../mlops_stacks/.env
+	terraform output -json | jq -r 'to_entries[] | "\(.key)=\(.value.value)"' > ../bundle/.env

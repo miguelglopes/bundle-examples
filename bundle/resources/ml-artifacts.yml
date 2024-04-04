@@ -1,0 +1,60 @@
+# Deployment target specific values
+targets:
+  research:
+    resources:
+      registered_models:
+        model:
+          name: ${var.model_name}
+          catalog_name: ${var.catalog_name}
+          schema_name: ${var.schema_name} 
+          grants:
+            - privileges:
+                - EXECUTE
+              principal: account users
+            - privileges:
+                - ALL_PRIVILEGES
+              principal: SGIA_TEAM_RD_AI_Platform
+          depends_on:
+            - resources.jobs.model_training_job.id
+            - resources.jobs.batch_inference_job.id
+
+      experiments:
+        experiment:
+          name: /Users/${workspace.current_user.userName}/${var.experiment_name}
+          permissions:
+            - level: CAN_READ
+              group_name: users
+            - level: CAN_MANAGE
+              group_name: SGIA_TEAM_RD_AI_Platform
+          description: MLflow Experiment used to track runs for mlops_stacks project.
+
+  dev:
+    resources:
+      model_serving_endpoints:
+        serving_endpoint:
+          name: ${var.model_name}_test
+          config:
+            served_models:
+            - name: champion
+              model_name: ${var.catalog_name}.${var.schema_name}.${var.model_name}
+              model_version: 2 # todo
+              workload_size: Small
+              scale_to_zero_enabled: false
+            - name: candidate
+              model_name: ${var.catalog_name}.${var.schema_name}.${var.model_name}
+              model_version: 3 # todo
+              workload_size: Small
+              scale_to_zero_enabled: false
+            traffic_config:
+              routes: 
+              - served_model_name: champion
+                traffic_percentage: 90
+              - served_model_name: candidate
+                traffic_percentage: 10
+          permissions:
+          - level: CAN_QUERY
+            group_name: users
+          - level: CAN_MANAGE
+            group_name: SGIA_TEAM_RD_AI_Platform
+          # depends_on:
+          #   - resources.registered_models.model.id

@@ -1,10 +1,9 @@
 parameters:
  - name: BUNDLE_TARGET
    type: string
-   default: research
  - name: BUNDLE_ROOT
    type: string
-   default: mlops_stacks
+   default: bundle
 
 jobs:
 - job: Deploy_And_Run
