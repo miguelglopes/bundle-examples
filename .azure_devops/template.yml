@@ -39,7 +39,7 @@ jobs:
     - script: |
         set -e
         make run-bundle-remote
-      condition: eq(${{parameters.BUNDLE_TARGET}}, 'research')
+      condition: eq('${{parameters.BUNDLE_TARGET}}', 'research')
       displayName: Run bundle
       workingDirectory: $(Agent.BuildDirectory)/s/${{parameters.BUNDLE_ROOT}}
       env:
